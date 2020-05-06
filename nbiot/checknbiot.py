@@ -1,4 +1,5 @@
-# check the connection is OK and print signal strength
+# check the connection is OK and print signal strength code
+# don't need to do _connect if the unit is already happy
 import serial
 import time
 
@@ -28,10 +29,20 @@ def nbiot_signal():
     #expect [b'AT+CGATT?\r\n', b'+CGATT:1\r\n', b'\r\n', b'OK\r\n']
     serialport.write(b'AT+CGATT?\r')
     response =  serialport.readlines(None)
-    print("connected? " + str(response))
-    # [b'AT+CSQ\r\n', b'+CSQ:0,99\r\n', b'\r\n', b'OK\r\n']
-    serialport.write(b'AT+CSQ\r')
-    response =  serialport.readlines(None)
-    print("signal?" + str(response[1]).split(":")[1])
+    rc = str(response[1]).split(':')[1]
+    connected =  '1' in rc
+    if connected :
+        # [b'AT+CSQ\r\n', b'+CSQ:0,99\r\n', b'\r\n', b'OK\r\n']
+        serialport.write(b'AT+CSQ\r')
+        response =  serialport.readlines(None)
+        signal = str(response[1]).split(":")[1]
+        rssicode = int(signal.split(",")[0])
+    else:
+        rssicode = 0
+    return connected, rssicode
 
-nbiot_signal()
+con, sig = nbiot_signal()
+if con :
+    print("signal strength: %d" % sig)
+else :
+    print("not connected")
