@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+# by John Cupitt, Aug 2020
 import sys
 import os
 import pyvips
