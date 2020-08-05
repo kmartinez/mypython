@@ -18,7 +18,7 @@ for line in file("all2207.csv"):
     To = fields[0] + "@ecs.soton.ac.uk"
     msg = "your comp2207 coursework1 marks are: (A B C total/10) \n" + line
     msg += "\nThese are subject to possible moderation but likely to remain the same \n"
-    msg += "\nsorry for the delay - it was quite a pile and a fascinating read!\n Kirk \n"
+    msg += "\it was an interesting read!\n Kirk \n"
     print msg
 ###########################################
     mMessage = ('From: %s\nTo: %s\nDate: %s\nSubject: %s\n%s\n' % (From, To, Date, Subject, msg))
